@@ -1,0 +1,109 @@
+<apex:page controller="RelatedContactsOfAccount" sidebar="false">
+    <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+    </head>
+    
+    <apex:form >
+        <div>
+            <apex:outputPanel rendered="{!lstAccounts.size > 0}">
+                <div class="container">
+                    
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Account Name</th>
+                                    <th>Phone</th>
+                                    <th>Website</th>
+                                </tr>
+                            </thead>
+                            <apex:repeat value="{!lstAccounts}" var="accObj">
+                                <tr>
+                                    <td class="accName" id="accId" accId="{!accObj.Id}">{!accObj.Name}</td>
+                                    <td>{!accObj.Phone}</td>
+                                    <td>{!accObj.Website}</td>
+                                </tr>
+                            </apex:repeat>
+                        </table>
+                    </div>
+                        
+                </div>
+            </apex:outputPanel>
+            
+             <div class="modal fade" id="myModal" role="dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-body">
+                            <div id="contactDetail"></div>
+                        </div>
+                    </div>
+                 </div>
+             </div>
+             
+        </div>
+        <apex:outputPanel >
+            <div>
+                abc
+            </div>
+        </apex:outputPanel>
+    </apex:form>
+    
+    <script type="text/javaScript">
+        var td = "";
+        var accountID = "";
+        
+        $( '.accName' ).click(function() {
+            console.log("$(this)=",$(this));
+            var accId = $(this).attr('accId');
+            console.log('=accId=====',accId);
+           
+            
+            RelatedContactsOfAccount.getRelatedContacts(accId, function(result, event) {
+                if(event.status) {
+                    console.log("into contacts===");
+                    console.log("result name===",result[0].Name);
+                    
+                    var headers = ["Name", "AccountId","Id"];
+                    var API_Names = ["Name", "AccountId", "Id"]
+                    
+                    var tbl = document.createElement("table");
+                    var tblBody = document.createElement("tbody");
+                    var tblHead = document.createElement("thead");
+                    var tblHeadRow = document.createElement("tr");
+
+                    for(var i=0; i < headers.length; i++) {
+                        console.log('into for 1======');
+                        var cell = document.createElement("th");
+                        var cellText = document.createTextNode(headers[i]);
+                    }
+                    
+                    for(var i=0; i < result.length; i++) {
+                        console.log('into for 2======');
+                        var tblRow = document.createElement("tr");
+                        
+                        for(var j=0; j < API_Names.length; j++) {
+                             
+                            var cell = document.createElement("td");
+                            var cellText = document.createTextNode(result[i][API_Names[j]]);
+                        }
+                    }
+                    console.log('tbl======',tbl);
+                    
+                    var conDetail = document.getElementById("contactDetail");
+                    conDetail.
+                    
+                    $("#myModal").modal();
+                    $("#contactDetail").html(tbl);
+             
+                }
+            }); 
+             
+           
+        });
+        
+        
+    </script>
+</apex:page>
