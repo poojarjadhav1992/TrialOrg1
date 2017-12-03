@@ -15,7 +15,7 @@ global with sharing class RelatedContactsOfAccount {
             return null;
         } 
     }*/
-    
+    // test
     @RemoteAction
     global static List<Contact> getRelatedContacts(String accID) {
     	List<Contact> lstContacts = [SELECT AccountId,ID, Name FROM Contact WHERE AccountId =: accID];
